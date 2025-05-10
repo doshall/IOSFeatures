@@ -1,5 +1,92 @@
 import Foundation
 
+/*
+    让我帮你解释一下闭包（Closure）在 Swift 中的使用。我会在项目中添加一个详细的闭包示例文件。 
+
+    已进行更改。
+
+
+
+    我已经创建了一个新的文件 `SwiftClosures.swift`，其中包含了 Swift 闭包的详细示例和解释。让我为你解释其中的关键概念：
+
+    ### 1. 基本语法
+    闭包的基本语法是：
+    ```swift
+    { (参数列表) -> 返回类型 in
+        // 闭包体
+    }
+    ```
+
+    ### 2. 闭包的几种形式
+
+    1. **完整形式**：
+    ```swift
+    let fullClosure = { (n1: Int, n2: Int) -> Int in
+        return n1 + n2
+    }
+    ```
+
+    2. **类型推断**：
+    ```swift
+    let typeInferred = { n1, n2 in n1 + n2 }
+    ```
+
+    3. **参数名称简写**：
+    ```swift
+    let shortened: (Int, Int) -> Int = { $0 + $1 }
+    ```
+
+    ### 3. 常见用途
+
+    1. **异步回调**：
+    ```swift
+    networkManager.fetchData { result in
+        switch result {
+        case .success(let data):
+            print(data)
+        case .failure(let error):
+            print(error)
+        }
+    }
+    ```
+
+    2. **集合操作**：
+    ```swift
+    let numbers = [1, 2, 3, 4, 5]
+    let doubled = numbers.map { $0 * 2 }
+    let filtered = numbers.filter { $0 > 2 }
+    ```
+
+    ### 4. 内存管理
+
+    为避免循环引用，使用 `[weak self]`：
+    ```swift
+    dataManager.addHandler { [weak self] in
+        guard let self = self else { return }
+        print(self.name)
+    }
+    ```
+
+    ### 5. 逃逸闭包
+
+    当闭包需要在函数返回后才被调用时，使用 `@escaping`：
+    ```swift
+    func fetchData(completion: @escaping (Result<Data, Error>) -> Void) {
+        // 异步操作
+    }
+    ```
+
+    ### 实际应用场景
+
+    1. **网络请求**
+    2. **动画完成回调**
+    3. **异步数据处理**
+    4. **用户交互响应**
+    5. **自定义排序**
+
+    需要我详细解释其中的任何部分吗？或者你想看看其他的闭包使用场景？
+*/
+
 // MARK: - 1. 依赖注入模式
 protocol NetworkService {
     func fetch<T: Decodable>(from url: URL) async throws -> T
