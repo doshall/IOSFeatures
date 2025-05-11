@@ -50,6 +50,16 @@ let stringValue: String = "Hello, Swift!"
     3. nil 合并运算符：
     ````swift
     let result = optionalString ?? "默认值"  // 如果optionalString为nil，使用默认值
+    
+    等价写法
+    a ?? b 实际上是以下代码的简写：
+    swift 体验AI代码助手 代码解读复制代码a != nil ? a! : b
+
+    即：如果 a 不是 nil，则强制解包（a!），否则返回 b。
+    特点
+
+    短路求值：如果可选值非 nil，则不会计算 defaultValue。
+    类型匹配：defaultValue 的类型必须和可选值的解包类型一致。
     ````
 
     ### 安全建议
@@ -136,6 +146,165 @@ var fruits: [String: Int] = [
     "orange": 3
 ]
 
+/*
+    字典是 Swift 中的一种数据结构，用于存储键值对（key-value pairs）。字典的键必须是唯一的，而值可以是任意类型。字典的基本语法如下：
+
+    ```swift
+    var dictionaryName: [KeyType: ValueType] = [:]
+    ```
+
+    例如：
+    ```swift
+    var scores: [String: Int] = ["小明": 90, "小红": 85]
+    ```
+
+    在这个例子中，`scores` 是一个字典，键是 `String` 类型（学生姓名），值是 `Int` 类型（分数）。
+    
+    我来解释一下 Swift 中字典（Dictionary）的使用方法。我将添加一个详细的字典使用示例： 
+    ````
+
+    ````
+
+
+    已进行更改。
+
+
+
+    让我为你解释 Swift 字典的主要特点：
+
+    1. **基本语法**：
+    ```swift
+    var dict: [KeyType: ValueType] = [:]  // 空字典
+    var dict = [key1: value1, key2: value2]  // 初始化带值的字典
+    ```
+
+    2. **主要操作**：
+    - 访问值：`dict["key"]`（返回可选值）
+    - 设置值：`dict["key"] = value`
+    - 删除值：`dict["key"] = nil`
+    - 更新值：`dict.updateValue(newValue, forKey: key)`
+
+    3. **安全访问**：
+    ```swift
+    // 使用 ?? 提供默认值
+    let score = dict["小明"] ?? 0
+
+    // 使用可选绑定
+    if let score = dict["小明"] {
+        print(score)
+    }
+    ```
+
+    4. **常用属性和方法**：
+    - `count`：元素个数
+    - `isEmpty`：是否为空
+    - `keys`：所有键的集合
+    - `values`：所有值的集合
+
+    5. **遍历方式**：
+    ```swift
+    // 遍历键值对
+    for (key, value) in dict { }
+
+    // 仅遍历键
+    for key in dict.keys { }
+
+    // 仅遍历值
+    for value in dict.values { }
+    ```
+
+    6. **字典转换**：
+    ```swift
+    // 转换为数组
+    let keys = Array(dict.keys)
+    let values = Array(dict.values)
+    ```
+
+    7. **字典合并**：
+    ```swift
+    dict1.merge(dict2) { (current, new) in
+        // 返回要保留的值
+    }
+    ```
+
+    需要我详细解释某个具体的用法吗？或者你想看看其他的字典操作示例？
+*/
+
+
+// MARK: - 字典详细示例
+/**
+    Swift 中的字典（Dictionary）是一种存储键值对的集合类型。
+    语法：[KeyType: ValueType] = [key1: value1, key2: value2, ...]
+ */
+
+// 1. 创建字典的几种方式
+var emptyDict: [String: Int] = [:] // 空字典
+var scores = ["小明": 90, "小红": 85, "小张": 95] // 类型推断
+var users: [Int: String] = [1: "用户1", 2: "用户2"] // 显式类型声明
+
+// 2. 访问和修改字典
+var studentScores = ["小明": 90, "小红": 85]
+print(studentScores["小明"] ?? 0) // 使用默认值访问
+studentScores["小张"] = 95 // 添加新值
+studentScores["小明"] = 88 // 修改已存在的值
+studentScores["小红"] = nil // 删除键值对
+
+// 3. 字典操作
+let count = studentScores.count // 获取字典元素个数
+let isEmpty = studentScores.isEmpty // 检查字典是否为空
+let allKeys = Array(studentScores.keys) // 获取所有键
+let allValues = Array(studentScores.values) // 获取所有值
+
+// 4. 遍历字典
+for (name, score) in studentScores {
+    print("\(name): \(score)分")
+}
+
+// 仅遍历键
+for name in studentScores.keys {
+    print("学生：\(name)")
+}
+
+// 仅遍历值
+for score in studentScores.values {
+    print("分数：\(score)")
+}
+
+// 5. 字典转换
+let nameArray = studentScores.map { "\($0.key)同学: \($0.value)分" }
+
+// 6. 字典过滤
+let highScores = studentScores.filter { $0.value >= 90 }
+
+// 7. 更新值
+studentScores.updateValue(92, forKey: "小明") // 返回旧值（如果存在）
+
+// 8. 合并字典
+var dict1 = ["a": 1, "b": 2]
+let dict2 = ["b": 3, "c": 4]
+dict1.merge(dict2) { (current, _) in current } // 保留原有值
+// 或者
+dict1.merge(dict2) { (_, new) in new } // 使用新值
+
+// 9. 字典嵌套
+var nestedDict: [String: [String: Int]] = [
+    "班级1": ["小明": 90, "小红": 85],
+    "班级2": ["小张": 95, "小李": 88]
+]
+
+// 10. 字典实践示例
+struct Student {
+    var name: String
+    var score: Int
+}
+
+// 将数组转换为字典
+let students = [
+    Student(name: "小明", score: 90),
+    Student(name: "小红", score: 85)
+]
+let studentDict = Dictionary(uniqueKeysWithValues: students.map { ($0.name, $0.score) })
+
 // MARK: - 集合
 var uniqueNumbers: Set<Int> = [1, 2, 3, 3, 4] // 重复的元素会被自动去除
 
@@ -168,6 +337,50 @@ enum HttpStatusCode: Int {
     case notFound = 404
     case serverError = 500
 }
+
+/// 枚举类型：方向
+enum Compass: String {
+    case north = "向北"
+    case south = "向南"
+    case east = "向东"
+    case west = "向西"
+}
+
+enum Compass {
+    case north
+    case south
+    case east
+    case west
+    
+    func description() -> String {
+        switch self {
+        case .north: return "向北"
+        case .south: return "向南"
+        case .east: return "向东"
+        case .west: return "向西"
+        }
+    }
+}
+/* 两种方式的区别：
+    1. **第一种方式**（原始值方式）：
+    - 使用 `: String` 声明枚举遵循 `String` 类型
+    - 直接给每个 case 赋予字符串值
+    - 使用时：`Compass.north.rawValue` 获取 "向北"
+
+    2. **第二种方式**（计算方式）：
+    - 通过方法返回对应的字符串
+    - 更灵活，可以包含更复杂的逻辑
+    - 使用时：`Compass.north.description()` 获取 "向北"
+
+    使用示例：
+    // 第一种方式使用
+    let direction1: Compass = .north
+    print(direction1.rawValue) // 输出：向北
+
+    // 第二种方式使用
+    let direction2: Compass = .north
+    print(direction2.description()) // 输出：向北
+*/
 
 // MARK: - 结构体
 struct Point {
